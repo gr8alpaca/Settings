@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="SettingsProperty" format=3 uid="uid://b6ge7aripm78i"]
+
+[ext_resource type="Script" uid="uid://c5l1ugoeuy6h" path="res://addons/settings/settings_property.gd" id="1_s2oak"]
+
+[resource]
+script = ExtResource("1_s2oak")
+name = "window_mode"
+section = "Graphics"
+type = 2
+value = 0
+display_mode = 7
+rounded = true
+enum_values = "Windowed:0,Fullscreen:3"
+update_expression_text = "Engine.get_singleton(\"DisplayServer\").window_set_mode(value)"
+metadata/_custom_type_script = "uid://c5l1ugoeuy6h"

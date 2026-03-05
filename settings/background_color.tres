@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SettingsProperty" format=3 uid="uid://cxrlvi5algwgv"]
+
+[ext_resource type="Script" uid="uid://c5l1ugoeuy6h" path="res://addons/settings/settings_property.gd" id="1_ykjs7"]
+
+[resource]
+script = ExtResource("1_ykjs7")
+name = "background_color"
+section = "Graphics"
+type = 20
+value = Color(0.31289434, 0.31289434, 0.31289434, 1)
+display_mode = 5
+metadata/_custom_type_script = "uid://c5l1ugoeuy6h"

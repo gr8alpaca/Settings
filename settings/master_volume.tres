@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SettingsProperty" format=3 uid="uid://ckkytqrrr4l47"]
+
+[ext_resource type="Script" uid="uid://c5l1ugoeuy6h" path="res://addons/settings/settings_property.gd" id="1_oqbox"]
+
+[resource]
+script = ExtResource("1_oqbox")
+name = "master_volume"
+section = "Audio"
+value = 10.0
+display_mode = 2
+max_value = 100.0
+update_expression_text = "Engine.get_singleton(\"AudioServer\").set_bus_volume_linear(0, clampf(value/100.0, 0.0, 1.0))"
+metadata/_custom_type_script = "uid://c5l1ugoeuy6h"

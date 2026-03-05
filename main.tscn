@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://vmq487m7i65a"]
+
+[ext_resource type="Script" uid="uid://dudnc6nkxyi3b" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://duaf3m1vgn8rm" path="res://addons/settings/settings_picker.gd" id="2_h2yge"]
+[ext_resource type="Resource" uid="uid://ckkytqrrr4l47" path="res://settings/master_volume.tres" id="3_1bvp3"]
+[ext_resource type="AudioStream" uid="uid://cg1rm0j77qc84" path="res://local_forecast_kevin_macleod.mp3" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://c5l1ugoeuy6h" path="res://addons/settings/settings_property.gd" id="4_lquwl"]
+[ext_resource type="Resource" uid="uid://b6ge7aripm78i" path="res://settings/window_mode.tres" id="5_7mycd"]
+[ext_resource type="Resource" uid="uid://cxrlvi5algwgv" path="res://settings/background_color.tres" id="6_272bh"]
+
+[sub_resource type="Resource" id="Resource_272bh"]
+script = ExtResource("4_lquwl")
+name = "unloaded_setting"
+section = "Testing"
+type = 4
+value = "Only loads from save when using the button"
+display_mode = 6
+metadata/_custom_type_script = "uid://c5l1ugoeuy6h"
+
+[node name="Main" type="Control" unique_id=1600373576 node_paths=PackedStringArray("color_rect")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ig7tw")
+bg_color_setting = ExtResource("6_272bh")
+color_rect = NodePath("ColorRect")
+additional_settings = Array[ExtResource("4_lquwl")]([SubResource("Resource_272bh")])
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=163408349]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.31289434, 0.31289434, 0.31289434, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2020814985]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="SettingsScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=807009588]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_lock_ = true
+
+[node name="SettingsVBox" type="VBoxContainer" parent="VBoxContainer/SettingsScrollContainer" unique_id=335047386]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SettingsPicker" type="HBoxContainer" parent="VBoxContainer/SettingsScrollContainer/SettingsVBox" unique_id=1446287168]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+script = ExtResource("2_h2yge")
+settings_property = ExtResource("3_1bvp3")
+color_picker_popup_content_scale_factor = null
+color_picker_popup_transparent = null
+metadata/_custom_type_script = "uid://duaf3m1vgn8rm"
+
+[node name="SettingsPicker2" type="HBoxContainer" parent="VBoxContainer/SettingsScrollContainer/SettingsVBox" unique_id=372557623]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+script = ExtResource("2_h2yge")
+settings_property = ExtResource("5_7mycd")
+color_picker_popup_content_scale_factor = null
+color_picker_popup_transparent = null
+metadata/_custom_type_script = "uid://duaf3m1vgn8rm"
+
+[node name="SettingsPicker3" type="HBoxContainer" parent="VBoxContainer/SettingsScrollContainer/SettingsVBox" unique_id=1678766837]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+script = ExtResource("2_h2yge")
+settings_property = SubResource("Resource_272bh")
+picker_min_size = Vector2(400, 0)
+color_picker_popup_content_scale_factor = null
+color_picker_popup_transparent = null
+metadata/_custom_type_script = "uid://duaf3m1vgn8rm"
+
+[node name="SettingsPicker4" type="HBoxContainer" parent="VBoxContainer/SettingsScrollContainer/SettingsVBox" unique_id=1374967463]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+script = ExtResource("2_h2yge")
+settings_property = ExtResource("6_272bh")
+picker_min_size = Vector2(100, 0)
+metadata/_custom_type_script = "uid://duaf3m1vgn8rm"
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=347805623]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer" unique_id=1024512897]
+layout_mode = 2
+alignment = 1
+
+[node name="SaveButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=863607231]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Save Settings"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=560854990]
+layout_mode = 2
+
+[node name="LoadButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1296887443]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Load Settings"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=710006330]
+stream = ExtResource("4_1bvp3")
+autoplay = true
+
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
