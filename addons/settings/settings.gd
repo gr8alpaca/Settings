@@ -10,11 +10,16 @@ var setting_properties: Array[SettingsProperty]
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
-
-	for prop: SettingsProperty in load_resource_dir():
+	
+	var dir: String = Utils.get_settings_resource_dir()
+	if not DirAccess.dir_exists_absolute(dir):
+		push_error("Settings resource directory '%s' does not exist.")
+		return
+	
+	for prop: SettingsProperty in load_resource_dir(dir):
 		add_settings_property(prop)
 	
-	if Utils.get_settings_load_on_ready():
+	if not setting_properties.is_empty() and Utils.get_settings_load_on_ready():
 		load_settings()
 
 func add_settings_property(prop: SettingsProperty) -> void:
@@ -41,8 +46,7 @@ func save_settings(additional_settings: Array[SettingsProperty] = []) -> void:
 	cfg.save(save_file_path)
 	saved.emit()
 
-func load_resource_dir() -> Array[SettingsProperty]:
-	var dir: String = Utils.get_settings_resource_dir()
+func load_resource_dir(dir: String) -> Array[SettingsProperty]:
 	var props: Array[SettingsProperty]
 	
 	if not DirAccess.dir_exists_absolute(dir):

@@ -13,11 +13,10 @@ config_version=5
 config/name="settings"
 run/main_scene="uid://vmq487m7i65a"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://icon.svg"
 
 [audio]
 
-buses/default_bus_layout="uid://bh4tiqlkuhqkj"
+buses/default_bus_layout=""
 
 [autoload]
 
@@ -37,7 +36,9 @@ enabled=PackedStringArray("res://addons/settings/plugin.cfg")
 [file_customization]
 
 folder_colors={
-"res://addons/": "gray"
+"res://addons/": "gray",
+"res://example_scene/": "blue",
+"res://resources/": "green"
 }
 
 [physics]

@@ -7,6 +7,6 @@ script = ExtResource("1_ykjs7")
 name = "background_color"
 section = "Graphics"
 type = 20
-value = Color(0.31289434, 0.31289434, 0.31289434, 1)
+value = Color(0.3697917, 0.36690268, 0.36690268, 1)
 display_mode = 5
 metadata/_custom_type_script = "uid://c5l1ugoeuy6h"

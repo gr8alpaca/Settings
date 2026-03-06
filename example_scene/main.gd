@@ -10,7 +10,9 @@ func _ready() -> void:
 	color_rect.set_color(bg_color_setting.get_value())
 
 func _on_save_button_pressed() -> void:
+	if Engine.is_editor_hint(): return
 	Settings.save_settings(additional_settings)
 
 func _on_load_button_pressed() -> void:
+	if Engine.is_editor_hint(): return
 	Settings.load_settings(additional_settings)

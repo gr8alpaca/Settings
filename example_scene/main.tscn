@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://vmq487m7i65a"]
 
-[ext_resource type="Script" uid="uid://dudnc6nkxyi3b" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://dudnc6nkxyi3b" path="res://example_scene/main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://duaf3m1vgn8rm" path="res://addons/settings/settings_picker.gd" id="2_h2yge"]
-[ext_resource type="Resource" uid="uid://ckkytqrrr4l47" path="res://settings/master_volume.tres" id="3_1bvp3"]
-[ext_resource type="AudioStream" uid="uid://cg1rm0j77qc84" path="res://local_forecast_kevin_macleod.mp3" id="4_1bvp3"]
+[ext_resource type="Resource" uid="uid://ckkytqrrr4l47" path="res://resources/settings/master_volume.tres" id="3_1bvp3"]
+[ext_resource type="AudioStream" uid="uid://cg1rm0j77qc84" path="res://example_scene/local_forecast_kevin_macleod.mp3" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://c5l1ugoeuy6h" path="res://addons/settings/settings_property.gd" id="4_lquwl"]
-[ext_resource type="Resource" uid="uid://b6ge7aripm78i" path="res://settings/window_mode.tres" id="5_7mycd"]
-[ext_resource type="Resource" uid="uid://cxrlvi5algwgv" path="res://settings/background_color.tres" id="6_272bh"]
+[ext_resource type="Resource" uid="uid://b6ge7aripm78i" path="res://resources/settings/window_mode.tres" id="5_7mycd"]
+[ext_resource type="Resource" uid="uid://cxrlvi5algwgv" path="res://resources/settings/background_color.tres" id="6_272bh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4c57u"]
+
+[sub_resource type="Theme" id="Theme_5vw27"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_4c57u")
+SettingsPicker/constants/separation = 12
 
 [sub_resource type="Resource" id="Resource_272bh"]
 script = ExtResource("4_lquwl")
@@ -24,6 +30,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_5vw27")
 script = ExtResource("1_ig7tw")
 bg_color_setting = ExtResource("6_272bh")
 color_rect = NodePath("ColorRect")
@@ -37,7 +44,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.31289434, 0.31289434, 0.31289434, 1)
+color = Color(0.3697917, 0.36690268, 0.36690268, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2020814985]
 layout_mode = 1
@@ -51,6 +58,7 @@ metadata/_edit_lock_ = true
 [node name="SettingsScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=807009588]
 layout_mode = 2
 size_flags_vertical = 3
+theme = SubResource("Theme_5vw27")
 metadata/_edit_lock_ = true
 
 [node name="SettingsVBox" type="VBoxContainer" parent="VBoxContainer/SettingsScrollContainer" unique_id=335047386]
@@ -60,38 +68,33 @@ size_flags_horizontal = 3
 [node name="SettingsPicker" type="HBoxContainer" parent="VBoxContainer/SettingsScrollContainer/SettingsVBox" unique_id=1446287168]
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_constants/separation = 12
+theme_type_variation = &"SettingsPicker"
 script = ExtResource("2_h2yge")
 settings_property = ExtResource("3_1bvp3")
-color_picker_popup_content_scale_factor = null
-color_picker_popup_transparent = null
 metadata/_custom_type_script = "uid://duaf3m1vgn8rm"
 
 [node name="SettingsPicker2" type="HBoxContainer" parent="VBoxContainer/SettingsScrollContainer/SettingsVBox" unique_id=372557623]
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_constants/separation = 12
+theme_type_variation = &"SettingsPicker"
 script = ExtResource("2_h2yge")
 settings_property = ExtResource("5_7mycd")
-color_picker_popup_content_scale_factor = null
-color_picker_popup_transparent = null
 metadata/_custom_type_script = "uid://duaf3m1vgn8rm"
 
 [node name="SettingsPicker3" type="HBoxContainer" parent="VBoxContainer/SettingsScrollContainer/SettingsVBox" unique_id=1678766837]
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_constants/separation = 12
+theme_type_variation = &"SettingsPicker"
 script = ExtResource("2_h2yge")
 settings_property = SubResource("Resource_272bh")
-picker_min_size = Vector2(400, 0)
-color_picker_popup_content_scale_factor = null
-color_picker_popup_transparent = null
+picker_min_size = Vector2(100, 0)
+line_edit_expand_to_text_length = true
 metadata/_custom_type_script = "uid://duaf3m1vgn8rm"
 
 [node name="SettingsPicker4" type="HBoxContainer" parent="VBoxContainer/SettingsScrollContainer/SettingsVBox" unique_id=1374967463]
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_constants/separation = 12
+theme_type_variation = &"SettingsPicker"
 script = ExtResource("2_h2yge")
 settings_property = ExtResource("6_272bh")
 picker_min_size = Vector2(100, 0)

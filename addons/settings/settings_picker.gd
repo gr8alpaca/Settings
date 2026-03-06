@@ -1,12 +1,11 @@
 @tool
 class_name SettingsPicker extends HBoxContainer
+## GUI for editing the value of a [SettingsProperty].
 
-const DEFAULT_SEPARATION: int = 12
-const SETTINGS_PICKER_THEME_VARIATION: StringName = &"SettingsPicker"
-
+## [SettingsProperty] that picker will display and edit.
 @export var settings_property: SettingsProperty: set = set_settings_property
 
-@export_range(0.01, 3.0, 0.01, "or_greater") 
+@export_range(0.01, 3.0, 0.01, "or_greater")
 var name_stretch_ratio: float = 0.3:
 	set(val):
 		name_stretch_ratio = val
@@ -55,13 +54,12 @@ var name_label: Label
 var picker_hbox: HBoxContainer
 
 func _init() -> void:
-	
+	theme_type_variation = &"SettingsPicker"
 	size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	add_theme_constant_override(&"separation", DEFAULT_SEPARATION)
 	
 	name_label = Label.new()
-	name_label.theme_type_variation = SETTINGS_PICKER_THEME_VARIATION
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	name_label.size_flags_stretch_ratio = name_stretch_ratio
 	name_label.horizontal_alignment = name_horizontal_alignment
 	name_label.vertical_alignment = name_vertical_alignment
@@ -69,7 +67,6 @@ func _init() -> void:
 	add_child(name_label)
 	
 	picker_hbox = HBoxContainer.new()
-	picker_hbox.theme_type_variation = SETTINGS_PICKER_THEME_VARIATION
 	picker_hbox.alignment = BoxContainer.ALIGNMENT_END
 	picker_hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	add_child(picker_hbox)
@@ -78,7 +75,7 @@ func set_settings_property(val: SettingsProperty) -> void:
 	if settings_property:
 		settings_property.display_mode_changed.disconnect(update_picker)
 		settings_property.changed.disconnect(update_picker)
-		
+	
 	settings_property = val
 	
 	if settings_property:
@@ -165,16 +162,13 @@ func update_picker() -> void:
 		SettingsProperty.DisplayMode.LINE_EDIT:
 			var line_edit: LineEdit = LineEdit.new()
 			line_edit.size_flags_horizontal = Control.SIZE_SHRINK_END
-			prepare_picker_object("line_edit_", line_edit)
-			for key: StringName in line_edit_settings_override:
-				line_edit.set(key, line_edit_settings_override[key])
-			
-			line_edit.text = settings_property.get_value()
+			line_edit.ready.connect(prepare_picker_object.bind("line_edit_", line_edit), CONNECT_ONE_SHOT)
 			
 			line_edit.text_changed.connect(update_settings_value)
 			if not settings_property.value_changed.is_connected(update_line_edit):
-				settings_property.value_changed.connect(update_line_edit.bind(line_edit))
+				settings_property.value_changed.connect(update_line_edit.bind(line_edit as LineEdit))
 			
+			update_line_edit(settings_property.get_value(), line_edit)
 			picker_hbox.add_child(line_edit)
 		
 		SettingsProperty.DisplayMode.ENUM:
@@ -197,7 +191,6 @@ func update_picker() -> void:
 			picker_hbox.add_child(option_but)
 	
 	for child in picker_hbox.get_children():
-		child.theme_type_variation = SETTINGS_PICKER_THEME_VARIATION
 		child.custom_minimum_size = picker_min_size
 	
 	show()
@@ -231,21 +224,31 @@ func _on_color_toggled(toggled_on: bool, col_pick_but: ColorPickerButton) -> voi
 	prepare_picker_object("color_picker_", col_pick_but.get_picker())
 	prepare_picker_object("color_picker_popup_", col_pick_but.get_popup())
 
-func prepare_picker_object(prefix: String, obj: Object) -> void:
+const HIDDEN_PROPERTIES: Dictionary[SettingsProperty.DisplayMode, String] = {
+	SettingsProperty.DisplayMode.COLORPICKER: "color_picker",
+	SettingsProperty.DisplayMode.LINE_EDIT: "line_edit",
+}
+
+func prepare_picker_object(prefix: String, node: Node) -> void:
 	for property: Dictionary in get_property_list():
 		if not prefix in property.name: continue
-		obj.set(property.name.trim_prefix(prefix), get(property.name))
-		
+		node.set(property.name.trim_prefix(prefix), get(property.name))
+
 
 func _validate_property(property: Dictionary) -> void:
 	if not Engine.is_editor_hint(): return
-	
-	const HIDDEN_PROPERTIES: Dictionary[SettingsProperty.DisplayMode, String] = {
-		SettingsProperty.DisplayMode.COLORPICKER: "color_picker",
-		SettingsProperty.DisplayMode.LINE_EDIT: "line_edit",
-	}
 	
 	var disp: SettingsProperty.DisplayMode = get_display_mode()
 	for key: SettingsProperty.DisplayMode in HIDDEN_PROPERTIES:
 		if disp != key and HIDDEN_PROPERTIES[key] in property.name: 
 			property.usage &= ~PROPERTY_USAGE_EDITOR
+
+func _set(property: StringName, value: Variant) -> bool:
+	if not Engine.is_editor_hint() or not is_node_ready():
+		return false
+	
+	for prefix: String in HIDDEN_PROPERTIES.values():
+		if prefix in property:
+			update_picker()
+	
+	return false
